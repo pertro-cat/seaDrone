@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>seadrone</title>
+    <style>
+      .controls button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+        background: #0077b6;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.1s;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      .controls button:hover {
+        background: #023e8a;
+        transform: scale(1.08);
+      }
+      .controls button:active {
+        background: #0096c7;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div
+        class="controls"
+        style="
+          display: grid;
+          grid-template-columns: repeat(3, 40px);
+          grid-template-rows: repeat(3, 40px);
+          gap: 5px;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div></div>
+        <button class="up">↑</button>
+        <div></div>
+        <button class="left">←</button>
+        <div></div>
+        <button class="right">→</button>
+        <div></div>
+        <button class="down">↓</button>
+        <div></div>
+      </div>
+      <div class="speed" style="text-align: center; margin-top: 20px">
+        speed: <span class="speed-value">0</span>
+        <input type="range" class="speed-input" min="0" max="255" value="0" />
+      </div>
+      <script>
+        const speedInput = document.querySelector(".speed-input");
+        const speedValue = document.querySelector(".speed-value");
+        speedInput.addEventListener("input", function () {
+          speedValue.textContent = speedInput.value;
+        });
+      </script>
+    </section>
+  </body>
+</html>
