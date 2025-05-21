@@ -7,6 +7,7 @@
 #include "wiFi.h"
 #include "clock.h"
 #include "convertToJson.h"
+#include "motor.h"
 
 unsigned long lastJsonTime = 0;
 // unsigned long jsonTime = 900000;
@@ -30,7 +31,8 @@ void setup()
   ultraSonicSetup();
   connectWiFi();
   setupTime();
-
+  InitWebServer();
+  setupMotor();
   InitMDNS();
 }
 
