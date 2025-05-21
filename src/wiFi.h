@@ -1,38 +1,76 @@
 #ifndef WIFI_H
 #define WIFI_H
-#define HOST_NAME "sea-drone"
+
+#include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <ESP8266mDNS.h>
+#include <LittleFS.h>
 
-// #include "index_html.h"
-#include "variable.h"
+#define HOST_NAME "sea-drone"
 
-// Replace with your network credentials
 const char *ssid = "admin";
 const char *password = "domestos1216";
 
 AsyncWebServer server(80);
+AsyncWebSocket ws("/ws");
 
-void InitMDNS()
-{
-    if (!MDNS.begin(HOST_NAME))
-    {
-        Serial.println("Error starting mDNS");
+void onWebSocketEvent(AsyncWebSocket *server,
+                      AsyncWebSocketClient *client,
+                      AwsEventType type,
+                      void *arg,
+                      uint8_t *data,
+                      size_t len) {
+    if (type == WS_EVT_CONNECT) {
+        Serial.println("WebSocket підключено");
+        client->text("OK");
+    } else if (type == WS_EVT_DATA) {
+        String msg = "";
+        for (size_t i = 0; i < len; i++) msg += (char)data[i];
+        Serial.println("Команда: " + msg);
+
+        // Тут обробка команд:
+        if (msg.startsWith("SPEED:")) {
+            int speed = msg.substring(6).toInt();
+            Serial.printf("Швидкість: %d\n", speed);
+        } else if (msg == "UP") {
+            Serial.println("Вгору");
+        } else if (msg == "DOWN") {
+            Serial.println("Вниз");
+        } // і т.д.
     }
-    MDNS.addService("http", "tcp", 80);
-    Serial.println("mDNS started");
 }
 
-void connectWiFi()
-{
+void InitWebServer() {
+    ws.onEvent(onWebSocketEvent);
+    server.addHandler(&ws);
+
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(LittleFS, "/index.html", "text/html");
+    });
+
+    server.serveStatic("/", LittleFS, "/");
+
+    server.begin();
+}
+
+void InitMDNS() {
+    if (!MDNS.begin(HOST_NAME)) {
+        Serial.println("mDNS помилка");
+    }
+    MDNS.addService("http", "tcp", 80);
+    Serial.println("mDNS активний");
+}
+
+void connectWiFi() {
     WiFi.begin(ssid, password);
-    Serial.println("Connecting to WiFi");
-    while (WiFi.status() != WL_CONNECTED)
-    {
+    Serial.print("Підключення до WiFi");
+    while (WiFi.status() != WL_CONNECTED) {
         delay(500);
         Serial.print(".");
     }
     Serial.println();
+    Serial.print("IP адреса: ");
     Serial.println(WiFi.localIP());
 }
 

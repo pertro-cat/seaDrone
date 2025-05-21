@@ -53,13 +53,53 @@
         speed: <span class="speed-value">0</span>
         <input type="range" class="speed-input" min="0" max="255" value="0" />
       </div>
-      <script>
-        const speedInput = document.querySelector(".speed-input");
-        const speedValue = document.querySelector(".speed-value");
-        speedInput.addEventListener("input", function () {
-          speedValue.textContent = speedInput.value;
-        });
-      </script>
     </section>
+
+    <script>
+      const socket = new WebSocket("ws://" + location.hostname + "/ws");
+
+      socket.onopen = function () {
+        console.log("WebSocket підключено");
+      };
+
+      socket.onmessage = function (event) {
+        console.log("Відповідь від WeMos:", event.data);
+      };
+
+      socket.onerror = function (error) {
+        console.error("WebSocket помилка:", error);
+      };
+
+      function sendCommand(command) {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(command);
+        } else {
+          console.warn("WebSocket не підключено");
+        }
+      }
+
+      // Кнопки напрямку
+      document
+        .querySelector(".up")
+        .addEventListener("click", () => sendCommand("UP"));
+      document
+        .querySelector(".down")
+        .addEventListener("click", () => sendCommand("DOWN"));
+      document
+        .querySelector(".left")
+        .addEventListener("click", () => sendCommand("LEFT"));
+      document
+        .querySelector(".right")
+        .addEventListener("click", () => sendCommand("RIGHT"));
+
+      // Повзунок швидкості
+      const speedInput = document.querySelector(".speed-input");
+      const speedValue = document.querySelector(".speed-value");
+
+      speedInput.addEventListener("input", function () {
+        speedValue.textContent = speedInput.value;
+        sendCommand("SPEED:" + speedInput.value);
+      });
+    </script>
   </body>
 </html>

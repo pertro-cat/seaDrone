@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <ESP8266mDNS.h>
+#include <LittleFS.h>
 
 #include "variable.h"
 #include "ultraSonic.h"
