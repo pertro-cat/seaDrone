@@ -6,7 +6,7 @@
 #include <WiFiClient.h>
 #include "convertToJson.h"
 
-const char *serverName = "http://192.168.31.159:5000/api/tag_data/";
+const char *serverName = "http://192.168.1.45:5000/api/drone_data/";
 
 void sendToServer(const String &timeBuffer, float distanceCm, float minDistance, float maxDistance, String lot, String lat)
 {

@@ -8,6 +8,7 @@
 #include "clock.h"
 #include "convertToJson.h"
 #include "motor.h"
+#include "sendToBackEnd.h"
 
 unsigned long lastJsonTime = 0;
 // unsigned long jsonTime = 900000;
@@ -19,7 +20,7 @@ void updateJson()
   {
     String jsonStr = convertToJson(timeBuffer, distanceCm, minDistance, maxDistance, lot, lat);
     printJson(jsonStr);
-    // sendToServer(timeBuffer, distanceCm, minDistance, maxDistance, lot, lat);
+    sendToServer(timeBuffer, distanceCm, minDistance, maxDistance, lot, lat);
 
     lastJsonTime = millis();
   }
