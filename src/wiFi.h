@@ -10,8 +10,10 @@
 
 #define HOST_NAME "sea-drone"
 
-const char *ssid = "admin";
-const char *password = "domestos1216";
+const char *ssid = "611VVA";
+const char *password = "123qwerty9";
+
+extern int speed;
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
@@ -25,7 +27,7 @@ void onWebSocketEvent(AsyncWebSocket *server,
 {
     if (type == WS_EVT_CONNECT)
     {
-        Serial.println("WebSocket підключено");
+        // Serial.println("WebSocket підключено");
         client->text("OK");
     }
     else if (type == WS_EVT_DATA)
@@ -33,7 +35,7 @@ void onWebSocketEvent(AsyncWebSocket *server,
         String msg = "";
         for (size_t i = 0; i < len; i++)
             msg += (char)data[i];
-        Serial.println("Команда: " + msg);
+        // Serial.println("Команда: " + msg);
 
         // Тут обробка команд:
         if (msg.startsWith("SPEED:"))
@@ -43,27 +45,46 @@ void onWebSocketEvent(AsyncWebSocket *server,
         }
         else if (msg == "UP")
         {
-            Serial.println("Вперед");
+            // Serial.println("Вперед");
             // тут код керування моторами вперед
             forward();
+            setSpeed(speed);
         }
         else if (msg == "DOWN")
         {
-            Serial.println("Назад");
+            // Serial.println("Назад");
             // тут код керування моторами назад
             backward();
+            setSpeed(speed);
         }
         else if (msg == "LEFT")
         {
-            Serial.println("Вліво");
+            // Serial.println("Вліво");
             // тут код повороту або руху вліво
             left();
+            setSpeed(speed);
         }
         else if (msg == "RIGHT")
         {
-            Serial.println("Вправо");
+            // Serial.println("Вправо");
             // тут код повороту або руху вправо
             right();
+            setSpeed(speed);
+        }
+        else if (msg == "STOP")
+        {
+            // Serial.println("Вправо");
+            // тут код повороту або руху вправо
+            Stop();
+            setSpeed(speed);
+        }
+        else if (msg == "AUTO")
+        {
+            // Serial.println("Вправо");
+            // тут код повороту або руху вправо
+            // Stop();
+            // setSpeed(speed);
+            Serial.print("A");
         }
     }
 }

@@ -2,8 +2,8 @@
 #define VARIABLE_H
 #include <Arduino.h>
 
-const int trigPin = 5;
-const int echoPin = 4;
+const int trigPin = 12;
+const int echoPin = 14;
 unsigned long lastTime = 0;
 
 #define SOUND_SPEED 0.034

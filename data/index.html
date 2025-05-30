@@ -43,12 +43,15 @@
         <button class="up">↑</button>
         <div></div>
         <button class="left">←</button>
-        <div></div>
+        <button class="stop">stop</button>
+
         <button class="right">→</button>
         <div></div>
         <button class="down">↓</button>
         <div></div>
+        <button class="auto">auto </button>
       </div>
+
       <div class="speed" style="text-align: center; margin-top: 20px">
         speed: <span class="speed-value">0</span>
         <input type="range" class="speed-input" min="0" max="255" value="0" />
@@ -91,6 +94,9 @@
       document
         .querySelector(".right")
         .addEventListener("click", () => sendCommand("RIGHT"));
+        document.querySelector(".stop").addEventListener("click", () => sendCommand("STOP")); 
+        document.querySelector(".auto").addEventListener("click", () => sendCommand("AUTO")); 
+
 
       // Повзунок швидкості
       const speedInput = document.querySelector(".speed-input");

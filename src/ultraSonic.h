@@ -9,8 +9,8 @@ void minDist()
     {
         minDistance = distanceCm;
     }
-    Serial.print("Min Distance: ");
-    Serial.println(minDistance);
+    // Serial.print("Min Distance: ");
+    // Serial.println(minDistance);
 }
 
 void maxDist()
@@ -19,8 +19,8 @@ void maxDist()
     {
         maxDistance = distanceCm;
     }
-    Serial.print("Max Distance: ");
-    Serial.println(maxDistance);
+    // Serial.print("Max Distance: ");
+    // Serial.println(maxDistance);
 }
 
 void ultraSonicSetup()
@@ -44,8 +44,8 @@ void ultraSonicUpdate()
         duration = pulseIn(echoPin, HIGH);
         distanceCm = duration * SOUND_SPEED / 2;
 
-        Serial.print("Distance (cm): ");
-        Serial.println(distanceCm);
+        // Serial.print("Distance (cm): ");
+        // Serial.println(distanceCm);
 
         minDist();
         maxDist();

@@ -9,18 +9,20 @@
 #include "convertToJson.h"
 #include "motor.h"
 #include "sendToBackEnd.h"
+#include "accelerometr.h"
+#include "metalDetector.h"
 
 unsigned long lastJsonTime = 0;
 // unsigned long jsonTime = 900000;
-unsigned long jsonTime = 5000;
+unsigned long jsonTime = 10000;
 
 void updateJson()
 {
   if ((millis() - lastJsonTime) > jsonTime)
   {
-    String jsonStr = convertToJson(timeBuffer, distanceCm, minDistance, maxDistance, lot, lat);
+    String jsonStr = convertToJson(timeBuffer, distanceCm, minDistance, maxDistance, lot, lat, sensorValue);
     printJson(jsonStr);
-    sendToServer(timeBuffer, distanceCm, minDistance, maxDistance, lot, lat);
+    sendToServer(timeBuffer, distanceCm, minDistance, maxDistance, lot, lat, sensorValue);
 
     lastJsonTime = millis();
   }
@@ -28,13 +30,14 @@ void updateJson()
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   ultraSonicSetup();
   connectWiFi();
   setupTime();
   InitWebServer();
   setupMotor();
   InitMDNS();
+  accelerometrSetup();
 }
 
 void loop()
@@ -43,4 +46,5 @@ void loop()
   MDNS.update();
   getTime();
   updateJson();
+  handleAccelerometr();
 }

@@ -26,7 +26,7 @@ void getTime()
         struct tm timeinfo;
         if (!getLocalTime(&timeinfo))
         {
-            Serial.println("No time available (yet)");
+            // Serial.println("No time available (yet)");
             return;
         }
 
@@ -37,7 +37,7 @@ void getTime()
                  timeinfo.tm_hour,
                  timeinfo.tm_min);
 
-        Serial.println(timeBuffer);
+        // Serial.println(timeBuffer);
     }
 }
 

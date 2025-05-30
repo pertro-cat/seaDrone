@@ -3,10 +3,13 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "ultraSonic.h"
+#include "metalDetector.h"
 #include "clock.h"
 #include "variable.h"
 
-String convertToJson(const String &timeBuffer, float distanceCm, float minDistance, float maxDistance, String lot, String lat)
+// extern int sensorValue;
+
+String convertToJson(const String &timeBuffer, float distanceCm, float minDistance, float maxDistance, String lot, String lat, int sensorValue)
 {
     JsonDocument doc;
 
@@ -16,6 +19,7 @@ String convertToJson(const String &timeBuffer, float distanceCm, float minDistan
     doc["maxDistance"] = maxDistance;
     doc["lot"] = lot;
     doc["lat"] = lat;
+    doc["sensorValue"] = sensorValue;
 
     String output;
     serializeJson(doc, output);
@@ -25,7 +29,7 @@ String convertToJson(const String &timeBuffer, float distanceCm, float minDistan
 // Для відлагодження
 void printJson(const String &json)
 {
-    Serial.println(json);
+    // Serial.println(json);
 }
 
 #endif
